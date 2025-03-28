@@ -90,7 +90,4 @@ def main(page: ft.Page,):
             ],
         )
     )
-    # page.add(ft.TextField (label = 'digite aq'))
-
-
 ft.app(main)
