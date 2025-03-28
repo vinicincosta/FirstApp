@@ -10,12 +10,16 @@ def main(page: ft.Page):
     page.window.height = 667
     # Definição  de funções
     def exebir_numero (e):
-        if int(input_numero.value) % 2 == 0:
-            txt_resultado_numero.value = 'par'
-        else:
-            txt_resultado_numero.value = 'impar'
+        try:
+            if int(input_numero.value) % 2 == 0:
+                txt_resultado_numero.value = 'par'
+            else:
+                txt_resultado_numero.value = 'impar'
 
-        page.update()
+            page.update()
+        except ValueError:
+            txt_resultado_numero.value ='Valor invalido'
+            page.update()
 
     # Criação de componentes
     input_numero = ft.TextField(label ='digite um numero')

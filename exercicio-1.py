@@ -18,8 +18,8 @@ def main(page: ft.Page):
     input_nome = ft.TextField(label='Nome', hint_text='Digite seu nome', col=4)
     input_sobrenome = ft.TextField(label='Sobrenome', hint_text='Digite seu nome', col=4)
     btn_enviar = ft.FilledButton(text='Enviar', width=page.window.width, on_click=exibir_nome)
-    txt_resultado = ft.Text(value='')
-    txt_resultado_sobrenome = ft.Text(value='')
+    txt_resultado = ft.TextField(label='Seu nome será', hint_text='Digite seu nome', col=4, value='')
+
     # Construir o layout
 
     page.add(
@@ -29,7 +29,7 @@ def main(page: ft.Page):
                 input_sobrenome,
                 btn_enviar,
                 txt_resultado,
-                txt_resultado_sobrenome,
+
             ],
         )
     )

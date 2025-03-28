@@ -9,35 +9,53 @@ def main(page: ft.Page,):
     page.window.width = 375
     page.window.height = 667
     # Definição  de funções
-    def exebir_numeros(e):
-
-
-        page.update()
 
     def somar(e):
-        soma = int(input_num1.value) + int(input_num2.value)
-        text_resultado.value = f'Resultado é {soma}'
-        page.update()
+        try:
+            soma = int(input_num1.value) + int(input_num2.value)
+            text_resultado.value = f'O Resultado é {soma}'
+            page.update()
+        except ValueError:
+            text_resultado.value = 'Valor invalido'
+            print('valor invalido')
+            page.update()
 
 
     def subtrair(e):
-        sub = int(input_num1.value) - int(input_num2.value)
-        text_resultado.value = f'Resultado {sub}'
-        page.update()
+        try:
+            sub = int(input_num1.value) - int(input_num2.value)
+            text_resultado.value = f' O Resultado é{sub}'
+            page.update()
+        except ValueError:
+            text_resultado.value = 'Valor invalido'
+            print('valor invalido')
+            page.update()
 
     def multiplicar(e):
-        multip = int(input_num1.value) * int(input_num2.value)
-        text_resultado.value = f'Resultado {multip}'
-        page.update()
+        try:
+            multip = int(input_num1.value) * int(input_num2.value)
+            text_resultado.value = f' O Resultado é {multip}'
+            page.update()
+        except ValueError:
+            text_resultado.value = 'Valor invalido'
+            print('valor invalido')
+            page.update()
 
     def dividir(e):
-        divi = int(input_num1.value) / int(input_num2.value)
-        text_resultado.value = f'Resultado {divi}'
-        page.update()
+        try:
+            divi = int(input_num1.value) / int(input_num2.value)
+            text_resultado.value = f' O Resultado é {divi}'
+            page.update()
+        except ValueError:
+            text_resultado.value = 'Valor invalido'
+            print('valor invalido')
+            page.update()
 
     # Criação de componentes
     input_num1 = ft.TextField(label='Digite um numero')
     input_num2 = ft.TextField(label='Digite outro numero')
+    text_resultado = ft.TextField(label='Resultado', value='')
+
     submit_button_soma = ft.TextButton(
         text='Somar',
         on_click=somar,
@@ -56,7 +74,7 @@ def main(page: ft.Page,):
         text='Dividir',
         on_click=dividir,
     )
-    text_resultado = ft.Text('')
+
 
     # Construir o layout
     page.add(
@@ -68,8 +86,7 @@ def main(page: ft.Page,):
                 submit_button_sub,
                 submit_button_multi,
                 submit_button_divi,
-                text_resultado,
-
+                text_resultado
             ],
         )
     )

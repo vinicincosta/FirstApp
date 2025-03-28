@@ -11,16 +11,28 @@ def main(page: ft.Page):
     page.window.height = 667
 
     # Definição de funções
-    def exibir_ano(e):
+    def exibir_ano(e,):
         try:
+
             tempo = datetime.now()
             input_formatado = datetime.strptime(input_ano.value, '%d/%m/%Y')
 
-            # diferenca_dias = abs((tempo - input_formatado).days)
-            # diferenca_anos = diferenca_dias // 365
-
             teste_data = tempo.year - input_formatado.year
             teste_mes = tempo.month > input_formatado.month
+
+            if input_formatado.year > 2025:
+                txt_resultado_ano.value = 'Idade inválido'
+                txt_resultado_idade.value = 'ano invalido'
+                print('valor invalido')
+                page.update()
+                return
+
+            elif input_formatado.year < 1900:
+                txt_resultado_idade.value = 'Idade inválido'
+                txt_resultado_ano.value = 'ano invalido'
+                page.update()
+                print('valor invalido')
+                return
 
             if tempo.month == input_formatado.month and tempo.day >= input_formatado.day:
                 idade = teste_data
@@ -35,8 +47,13 @@ def main(page: ft.Page):
                 txt_resultado_idade.value = f'Sua idade é {idade} ano(s)'
             page.update()
         except ValueError:
-            print("Valor inválido, tente novamente")
+            txt_resultado_ano.value = 'valor invalido'
+            print('valor invalido')
 
+        except TypeError:
+            txt_resultado_ano.value = 'valor invalido'
+            print('valor invalido')
+        page.update()
 
 
     # Criação de componentes
@@ -53,6 +70,7 @@ def main(page: ft.Page):
                 btn_enviar,
                 txt_resultado_ano,
                 txt_resultado_idade,
+
 
 
             ],
