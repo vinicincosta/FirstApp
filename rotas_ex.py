@@ -1,7 +1,7 @@
 from tkinter import Text
 
 import flet as ft
-from django.db.models.fields import TextField
+
 from flet import AppBar, ElevatedButton, Text, Colors, View, Page
 
 
@@ -51,6 +51,6 @@ def main(page: Page):
 
     # Criação de componentes
     input_nome = ft.TextField(label='Nome', hint_text='Digite seu nome', col=4)
-    
+
 
 ft.app(main)

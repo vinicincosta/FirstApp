@@ -24,8 +24,6 @@ def main(page: Page):
                     input_descricao,
                     input_autor,
                     input_categoria
-
-
                 ]
             )
         )
@@ -40,7 +38,6 @@ def main(page: Page):
                         ft.TextField(value=f'Descrição: {input_descricao.value}'),
                         ft.TextField(value=f'Categoria: {input_categoria.value}'),
                         ft.TextField(value=f'Autor: {input_autor.value}')
-
                     ],
                 )
             )
