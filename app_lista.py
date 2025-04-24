@@ -41,6 +41,7 @@ print("+", "-" * 30, "+")
 
 #Etapa 8. Ordene a lista em ordem alfabética.
 frutas.sort()
+
 print('Ordena os elementos da lista.')
 print("+", "-" * 30, "+")
 
