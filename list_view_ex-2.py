@@ -110,7 +110,7 @@ def main(page: Page):
 
     input_titulo = ft.TextField(label='Titulo', hint_text='insira titulo', col=4)
     input_descricao = ft.TextField(label='Descrição', hint_text='insira descrição', col=4)
-    input_categoria = ft.TextField(label='Categoria', hint_text='insira categoria', col=4)
+    input_categoria = ft.TextField(label='Categoria', hint_text='insira categoriaa', col=4)
     input_autor = ft.TextField(label='Autor', hint_text='insira autor', col=4)
 
     lv_livros = ft.ListView(

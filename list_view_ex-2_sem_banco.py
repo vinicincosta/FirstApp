@@ -119,7 +119,7 @@ def main(page: Page):
                         ft.ListTile(
                             leading=ft.Icon(ft.Icons.SNOOZE),
                             title=ft.Text("Two-line with leading and trailing controls"),
-                            subtitle=ft.Text("Here is a second title."),
+                            subtitle=ft.Text("Here is a second title.."),
                             trailing=ft.PopupMenuButton(
                                 icon=ft.Icons.MORE_VERT,
                                 items=[
