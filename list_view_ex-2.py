@@ -15,6 +15,26 @@ def main(page: Page):
     page.window.width = 375
     page.window.height = 667
 
+    def add_titulo_lista(e):
+
+        lv_livros.controls.append(
+            ft.Text(value=f'Titulo:{input_titulo.value}' )
+        )
+        lv_livros.controls.append(
+            ft.Text(value=f'Descricao:{input_descricao.value}'),
+
+        )
+        lv_livros.controls.append(
+            ft.Text(value=f'Autor:{input_autor.value}'),
+
+        )
+        lv_livros.controls.append(
+
+            ft.Text(value=f'Categoria:{input_categoria.value}'),
+        )
+
+        page.update()
+
     # Definição de funções
     lista = []
     def salvar_livros(e):
@@ -44,9 +64,71 @@ def main(page: Page):
         lv_livros.controls.clear()
         for user in lista:
             lv_livros.controls.append(
+
                 ft.Text(value=f'{user.titulo} - {user.descricao} - {user.autor} - {user.categoria}', )
             )
+
         page.update()
+
+    def example():
+
+        return ft.Card(
+            content=ft.Container(
+                width=500,
+                content=ft.Column(
+                    [
+                        ft.ListTile(
+                            title=ft.Text("One-line list tile"),
+                        ),
+                        ft.ListTile(title=ft.Text("One-line dense list tile"), dense=True),
+                        ft.ListTile(
+                            leading=ft.Icon(ft.Icons.SETTINGS),
+                            title=ft.Text("One-line selected list tile"),
+                            selected=True,
+                        ),
+                        ft.ListTile(
+                            leading=ft.Image(src="/logo.svg", fit=ft.ImageFit.CONTAIN),
+                            title=ft.Text("One-line with leading control"),
+                        ),
+                        ft.ListTile(
+                            title=ft.Text("One-line with trailing control"),
+                            trailing=ft.PopupMenuButton(
+                                icon=ft.Icons.MORE_VERT,
+                                items=[
+                                    ft.PopupMenuItem(text="Item 1"),
+                                    ft.PopupMenuItem(text="Item 2"),
+                                ],
+                            ),
+                        ),
+                        ft.ListTile(
+                            leading=ft.Icon(ft.Icons.ALBUM),
+                            title=ft.Text("One-line with leading and trailing controls"),
+                            trailing=ft.PopupMenuButton(
+                                icon=ft.Icons.MORE_VERT,
+                                items=[
+                                    ft.PopupMenuItem(text="Item 1"),
+                                    ft.PopupMenuItem(text="Item 2"),
+                                ],
+                            ),
+                        ),
+                        ft.ListTile(
+                            leading=ft.Icon(ft.Icons.SNOOZE),
+                            title=ft.Text("Two-line with leading and trailing controls"),
+                            subtitle=ft.Text("Here is a second title."),
+                            trailing=ft.PopupMenuButton(
+                                icon=ft.Icons.MORE_VERT,
+                                items=[
+                                    ft.PopupMenuItem(text="Item 1"),
+                                    ft.PopupMenuItem(text="Item 2"),
+                                ],
+                            ),
+                        ),
+                    ],
+                    spacing=0,
+                ),
+                padding=ft.padding.symmetric(vertical=10),
+            )
+        )
 
 
     def gerecia_rotas(e):
@@ -66,8 +148,11 @@ def main(page: Page):
                     ),
                     ft.Button(
                         text="Exibir Lista",
-                        on_click=lambda _: page.go('/segunda')
+                        on_click=lambda _: page.go('/segunda'),
+
                     ),
+
+
 
 
                 ]
@@ -76,13 +161,22 @@ def main(page: Page):
 
         if page.route == '/segunda':
             exibir_lista(e)
+            add_titulo_lista(e)
             page.views.append(
                 View(
                     "/segunda",
                     [
                         AppBar(title=Text('Informações'), bgcolor=Colors.RED),
-                       lv_livros,
+                        lv_livros,
+
+                        # ft.Button(
+                        #     text='Exibir teste',
+                        #     on_click=lambda _: add_titulo_lista(e)
+                        # )
+
+
                     ],
+
                 )
             )
         page.update()
@@ -114,7 +208,41 @@ def main(page: Page):
     input_autor = ft.TextField(label='Autor', hint_text='insira autor', col=4)
 
     lv_livros = ft.ListView(
-        height=500
+        height=500,
+        spacing=1,
+        divider_thickness=1
     )
+
+    # lv_livros.controls.append(ft.Card(
+    #     width=page.window.width,
+    #     content=ft.Container(
+    #         ft.Column(
+    #             [
+    #                 ft.Text(value=input_titulo.value),
+    #                 ft.Text(value=input_descricao.value),
+    #             ]
+    #         ),
+    #         padding=10,
+    #
+    #     )
+    # ))
+
+    lv_livros.controls.append(
+        ft.ListTile(
+            leading=ft.Icon(ft.Icons.PERSON),
+            title=ft.Text(f'Titulo - {input_titulo.value}'),
+
+            subtitle=ft.Text(f'Sub titulo'),
+            trailing=ft.PopupMenuButton(
+                icon=ft.Icons.MORE_VERT,
+                items=[
+                    ft.PopupMenuItem(text='Item 1'),
+                    ft.PopupMenuItem(text='Item 2'),
+                ],
+            )
+        )
+    )
+
+
 
 ft.app(main)
