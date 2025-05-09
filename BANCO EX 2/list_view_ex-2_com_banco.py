@@ -1,9 +1,11 @@
 import flet as ft
+from django.contrib.admin.templatetags.admin_list import result_list
 from flet import AppBar, ElevatedButton, Text, Colors, View, Page
 from flet.auth import user
 from flet.core.alignment import Alignment
 
 from models import *
+
 
 def main(page: Page):
     # Configuração da página
@@ -14,17 +16,20 @@ def main(page: Page):
 
     def add_titulo_lista(e):
         lv_livros.controls.clear()
-        for user in lista:
+        lv_resultado = select(Livro)
+        resul_livros = db_session.execute(lv_resultado).scalars().all()
+
+        for livro in resul_livros:
             lv_livros.controls.append(
                 ft.ListTile(
-                    leading=ft.Icon(ft.Icons.PERSON),
-                    title=ft.Text(f'Título - {user.titulo}'),
-                    subtitle=ft.Text(f'Categoria - {user.categoria}'),
+                    leading=ft.Icon(ft.Icons.BOOK),
+                    title=ft.Text(f'Título - {livro.titulo}'),
+                    subtitle=ft.Text(f'Categoria - {livro.categoria}'),
                     trailing=ft.PopupMenuButton(
                         icon=ft.Icons.MORE_VERT,
                         items=[
                             ft.PopupMenuItem(text=f'Detalhes',
-                                             on_click=lambda _: page.go('/terceira')),
+                                             on_click=lambda _, l=livro: exibir_detalhes(l)),
 
                         ],
                     )
@@ -33,8 +38,15 @@ def main(page: Page):
         page.update()
 
 
-    # Definição de funções
-    lista = []
+    def exibir_detalhes(livro):
+        txt_resultado.value = (f'Titulo: {livro.titulo}\n'
+                               f'Categoria: {livro.categoria}\n'
+                               f'Autor: {livro.autor}\n'
+                               f'Descrição: {livro.descricao}')
+        page.go('/terceira')
+
+
+
     def salvar_livros(e):
         if (input_titulo.value == '' or input_autor.value == ''
                 or input_categoria.value == '' or input_descricao.value == ''):
@@ -56,16 +68,14 @@ def main(page: Page):
             input_titulo.value = ''
             page.overlay.append(msg_sucesso)  # overlay sob escreve a página
             msg_sucesso.open = True
-
             page.update()
 
-    def exibir_lista(e, id_livro):
-
-        lv_resultado = db_session.execute(select(Livro).filter_by(id=int(id_livro))).scalar()
-        print(lv_resultado)
+    def exibir_lista(e):
         lv_livros.controls.clear()
-        for livro in lista:
-            lv_resultado.controls.append(
+        lv_resultado = select(Livro)
+        resultado_livros = db_session.execute(lv_resultado).scalars().all()
+        for livro in resultado_livros:
+            lv_livros.controls.append(
                 ft.Text(value=f'Título: {livro.titulo}\n'
                               f'Descrição:  {livro.descricao}\n'
                               f'Autor:  {livro.autor} \n'
@@ -86,7 +96,7 @@ def main(page: Page):
                         ft.ListTile(
                             leading=ft.Icon(ft.Icons.SETTINGS),
                             title=ft.Text("One-line selected list tile"),
-                           selected=True,
+                            selected=True,
                         ),
                         ft.ListTile(
                             leading=ft.Image(src="/logo.svg", fit=ft.ImageFit.CONTAIN),
@@ -132,58 +142,61 @@ def main(page: Page):
             )
         )
 
-    def gerecia_rotas(e):
+    def gerencia_rotas(e):
         page.views.clear()
         page.views.append(
             View(
                 '/',
                 [
-                    AppBar(title=Text('Livro'), bgcolor=Colors.BLUE_ACCENT, center_title=True),
+                    AppBar(title=Text('Livro', font_family="Arial"), bgcolor=Colors.BLUE_ACCENT, center_title=True),
                     input_titulo,
                     input_descricao,
                     input_autor,
                     input_categoria,
                     ft.Button(
                         text="Salvar",
-                        on_click=lambda _: salvar_livros(e)
+                        bgcolor=Colors.BLUE_ACCENT,
+                        color=Colors.BLACK,
+
+                        on_click=lambda _: salvar_livros(e),
+
                     ),
                     ft.Button(
                         text="Exibir Lista",
+                        bgcolor=Colors.BLUE_ACCENT,
+                        color=Colors.BLACK,
                         on_click=lambda _: page.go('/segunda')
                     ),
 
-
-                ]
+                ],
+                bgcolor=Colors.BLUE_GREY_700,
             )
+
         )
 
-        if page.route == '/segunda':
+        if page.route == '/segunda' or page.route == '/terceira':
             add_titulo_lista(e)
             page.views.append(
-
                 View(
                     "/segunda",
                     [
-                        AppBar(title=Text('Informações'), bgcolor=Colors.BLUE_ACCENT),
-                       lv_livros,
-                        ft.Button(
-                            text="Exibir terceira teste",
-                            on_click=lambda _: page.go('/terceira')
-                        )
+                        AppBar(title=Text('Livros', font_family="Arial"), bgcolor=Colors.BLUE_ACCENT),
+                        lv_livros,
                     ],
-
+                    bgcolor=Colors.BLUE_GREY_700,
                 )
             )
 
         if page.route == '/terceira':
-            exibir_lista(e)
             page.views.append(
                 View(
                     "/terceira",
                     [
-                        AppBar(title=Text('Detalhes'), bgcolor=Colors.BLUE_ACCENT),
-                        lv_livros,
-                    ]
+                        AppBar(title=Text('Detalhes', font_family="Arial", ), bgcolor=Colors.BLUE_ACCENT),
+                        # lv_livros,
+                        txt_resultado
+                    ],
+                    bgcolor=Colors.BLUE_GREY_700,
                 )
             )
         page.update()
@@ -193,7 +206,7 @@ def main(page: Page):
         top_view = page.views[-1]
         page.go(top_view.route)
 
-    page.on_route_change = gerecia_rotas
+    page.on_route_change = gerencia_rotas
     page.on_view_pop = voltar
     page.go(page.route)
 
@@ -211,16 +224,15 @@ def main(page: Page):
 
     input_titulo = ft.TextField(label='Titulo', hint_text='insira titulo', col=4, hover_color=Colors.BLUE)
     input_descricao = ft.TextField(label='Descrição', hint_text='insira descrição', col=4, hover_color=Colors.BLUE)
-    input_categoria = ft.TextField(label='Categoria', hint_text='insira categoria', col=4,hover_color=Colors.BLUE)
-    input_autor = ft.TextField(label='Autor', hint_text='insira autor', col=4,hover_color=Colors.BLUE)
+    input_categoria = ft.TextField(label='Categoria', hint_text='insira categoria', col=4, hover_color=Colors.BLUE)
+    input_autor = ft.TextField(label='Autor', hint_text='insira autor', col=4, hover_color=Colors.BLUE)
+    txt_resultado = ft.Text('', font_family="Arial", size=20, color=Colors.BLACK)
 
     lv_livros = ft.ListView(
         height=700,
-        spacing = 5,
-        divider_thickness = 2
+        spacing=5,
+        divider_thickness=2
     )
-
-
 
 
 ft.app(main)

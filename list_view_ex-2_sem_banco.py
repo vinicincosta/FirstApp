@@ -1,7 +1,5 @@
 import flet as ft
-from flet import AppBar, ElevatedButton, Text, Colors, View, Page
-from flet.auth import user
-from flet.core.alignment import Alignment
+from flet import AppBar, Text, Colors, View, Page
 
 from models import *
 class User():
@@ -160,7 +158,7 @@ def main(page: Page):
             )
         )
 
-        if page.route == '/segunda':
+        if page.route == '/segunda' or page.route == '/terceira':
             add_titulo_lista(e)
             page.views.append(
 
