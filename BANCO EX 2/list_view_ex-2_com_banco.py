@@ -22,11 +22,11 @@ def main(page: Page):
         for livro in resul_livros:
             lv_livros.controls.append(
                 ft.ListTile(
-                    leading=ft.Icon(ft.Icons.BOOK),
-                    title=ft.Text(f'Título - {livro.titulo}'),
-                    subtitle=ft.Text(f'Categoria - {livro.categoria}'),
+                    leading=ft.Icon(ft.Icons.BOOK, color=Colors.BLACK),
+                    title=ft.Text(f'Título - {livro.titulo}', color=Colors.BLACK),
+                    subtitle=ft.Text(f'Categoria - {livro.categoria}',color=Colors.BLACK),
                     trailing=ft.PopupMenuButton(
-                        icon=ft.Icons.MORE_VERT,
+                        icon=ft.Icons.MORE_VERT, icon_color=Colors.BLACK,
                         items=[
                             ft.PopupMenuItem(text=f'Detalhes',
                                              on_click=lambda _, l=livro: exibir_detalhes(l)),
@@ -169,7 +169,7 @@ def main(page: Page):
                     ),
 
                 ],
-                bgcolor=Colors.BLUE_GREY_700,
+                bgcolor=Colors.DEEP_PURPLE_900,
             )
 
         )
@@ -183,7 +183,7 @@ def main(page: Page):
                         AppBar(title=Text('Livros', font_family="Arial"), bgcolor=Colors.BLUE_ACCENT),
                         lv_livros,
                     ],
-                    bgcolor=Colors.BLUE_GREY_700,
+                    bgcolor=Colors.BLUE_200,
                 )
             )
 
@@ -196,7 +196,7 @@ def main(page: Page):
                         # lv_livros,
                         txt_resultado
                     ],
-                    bgcolor=Colors.BLUE_GREY_700,
+                    bgcolor=Colors.BLUE_200,
                 )
             )
         page.update()
@@ -226,7 +226,7 @@ def main(page: Page):
     input_descricao = ft.TextField(label='Descrição', hint_text='insira descrição', col=4, hover_color=Colors.BLUE)
     input_categoria = ft.TextField(label='Categoria', hint_text='insira categoria', col=4, hover_color=Colors.BLUE)
     input_autor = ft.TextField(label='Autor', hint_text='insira autor', col=4, hover_color=Colors.BLUE)
-    txt_resultado = ft.Text('', font_family="Arial", size=20, color=Colors.BLACK)
+    txt_resultado = ft.Text('', font_family="Algerian", size=22, color=Colors.BLACK)
 
     lv_livros = ft.ListView(
         height=700,

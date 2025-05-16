@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, String, Float, select
 from sqlalchemy.orm import scoped_session, declarative_base, sessionmaker
 
-engine = create_engine('sqlite:///base_flet')
+engine = create_engine('sqlite:///base_flet_livro')
 db_session = scoped_session(sessionmaker(bind=engine))
 
 Base = declarative_base()

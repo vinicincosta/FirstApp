@@ -51,7 +51,7 @@ def main(page: ft.Page):
 
         for user in lista:
             lv_profissao.controls.append(
-                ft.Text(value=f'{user.profissao} - {user.salario} - {user.nome}',)
+                ft.Text(value=f'Nome:{user.nome}\n - Profissão:{user.profissao}\n - Salário:{user.salario}\n - ',)
             )
         page.update()
 
